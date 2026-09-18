@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday My Shakti ❤️</title>
+
+  <!-- =========================================================================
+       👇👇 YAHAN SABSE UPAR APNI SETTINGS AUR PHOTOS EDIT KAREIN 👇👇
+       ========================================================================= -->
+  <script>
+    window.USER_CONFIG = {
+      // 1. PREVIEW BUTTON ON/OFF (true = button dikhega, false = screen se gayab ho jayega)
+      SHOW_PREVIEW_BUTTON: true,
+
+      // 2. FORCE TEST CELEBRATION (true = direct birthday celebration screen khulegi)
+      FORCE_TEST_MODE: false,
+
+      // 3. TARGET DATE (19 September Raat 12:00 AM)
+      TARGET_DATE: new Date(new Date().getFullYear(), 8, 19, 0, 0, 0).getTime(),
+
+      // 4. NAMES & AGE
+      REAL_NAME: "Gungun",
+      NICK_NAME: "Shakti",
+      BOYFRIEND_NAME: "Giridhar",
+      AGE: "23",
+
+      // 5. TOP 5 VERTICAL (PORTRAIT) PHOTOS:
+      PORTRAIT_PHOTOS: [
+        {
+          fileOrUrl: "shakti2.JPEG",
+          caption: "Meri sabse pyari muskaan ✨"
+        },
+        {
+          fileOrUrl: "shakti1.JPEG",
+          caption: "Har lamha tumhare sath haseen ❤️"
+        },
+        {
+          fileOrUrl: "shakti3.JPEG",
+          caption: "Meri taaqat, meri Shakti 🌸"
+        },
+        {
+          fileOrUrl: "shakti4.JPEG",
+          caption: "Hamesha mere dil ke sabse kareeb 💫"
+        },
+        {
+          fileOrUrl: "shakti6.JPEG",
+          caption: "Yeh hasi kabhi kam na ho 💖"
+        }
+      ],
+
+      // 6. BOTTOM 1 HORIZONTAL (LANDSCAPE) PHOTO:
+      LANDSCAPE_PHOTO: {
+        fileOrUrl: "shakti5.JPEG",
+        caption: "Humari sabse khubsurat yaadein ek frame me ❤️"
+      },
+
+      // 7. ROMANTIC MESSAGE / QUOTE
+      MAIN_MESSAGE: `Duniya ke liye tum <strong>Gungun</strong> ho, par mere har mushkil waqt me, meri har kamzori me meri taaqat bankar khadi rehne wali meri <strong>Shakti</strong> ho tum.<br><br>
+      Zindagi me tumhara hona mere liye sabse anmol tohfa hai. Aaj jab tum <strong>23 saal</strong> ki ho gayi ho, main dil se dua karta hoon ki tumhare chehre ki yeh pyari muskaan hamesha aisi hi khilti rahe, aur humara sath aisi hi shakti aur bepanah mohabbat ke sath chalta rahe.`,
+
+      // 8. BACKGROUND TUNE (Shuru me romantic piano tune baje gi)
+      BG_MUSIC_URL: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112199.mp3",
+
+      // 9. CANDLE BLOW PAR BAJNE WALA SONG (Funzoa ya Birthday Song):
+      BIRTHDAY_SONG_URL: "birthday.mp3"
+    };
+  </script>
+  <!-- =========================================================================
+       👆👆 CONFIGURATION YAHAN KHATAM HOTA HAI 👆👆
+       ========================================================================= -->
+
+  <!-- Google Fonts & Canvas Confetti -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Caveat:wght@600;700&family=Dancing+Script:wght@700&family=Great+Vibes&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #ff3366;
+      --primary-glow: rgba(255, 51, 102, 0.7);
+      --gold: #ffd700;
+      --gold-glow: rgba(255, 215, 0, 0.6);
+      --bg-dark: #07030d;
+      --card-bg: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 15%, #2a0833 0%, var(--bg-dark) 100%);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Screen Tap Romantic Heart burst */
+    .heart-tap {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      animation: tapFlyUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      font-size: 1.7rem;
+      filter: drop-shadow(0 0 12px #ff3366);
+    }
+
+    @keyframes tapFlyUp {
+      0% { transform: translate(-50%, -50%) scale(0.6) rotate(0deg); opacity: 1; }
+      100% { transform: translate(-50%, -160px) scale(1.6) rotate(30deg); opacity: 0; }
+    }
+
+    /* ================= COUNTDOWN SCREEN ================= */
+    #countdown-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      background: radial-gradient(ellipse at bottom, #1c0a33 0%, #06020c 100%);
+      transition: opacity 1.6s cubic-bezier(0.7, 0, 0.3, 1), transform 1.6s ease;
+      padding: 20px;
+    }
+
+    #countdown-screen.hide {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.1) translateY(-60px);
+    }
+
+    .countdown-heart {
+      font-size: 3.6rem;
+      animation: heartbeat 1.4s infinite ease-in-out;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 20px #ff3366);
+    }
+
+    .teaser-text {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      color: #ff9ebb;
+      text-shadow: 0 0 20px var(--primary-glow);
+      margin-bottom: 30px;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .timer-container {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .timer-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 51, 102, 0.15);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      padding: 18px 22px;
+      border-radius: 20px;
+      min-width: 90px;
+      text-align: center;
+    }
+
+    .timer-value {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #fff;
+      display: block;
+      text-shadow: 0 0 25px #ff3366;
+      line-height: 1;
+    }
+
+    .timer-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: #ffb8cb;
+      margin-top: 8px;
+      display: block;
+    }
+
+    .instant-test-btn {
+      margin-top: 40px;
+      padding: 12px 28px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px dashed rgba(255, 133, 161, 0.5);
+      color: #ff85a1;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .instant-test-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 0 25px var(--primary);
+      transform: scale(1.05);
+    }
+
+    /* ================= MAIN CELEBRATION ================= */
+    #celebration-screen {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px 20px 100px;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 1.8s ease 0.4s, transform 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+    }
+
+    #celebration-screen.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hbd-sub {
+      font-size: 1.15rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: #ff9ebb;
+      display: block;
+      text-align: center;
+    }
+
+    .hbd-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3.2rem, 9vw, 6.5rem);
+      color: #fff;
+      text-shadow: 0 0 15px #ff3366, 0 0 40px #ff3366, 0 0 70px #ff0055;
+      line-height: 1.1;
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .shakti-badge {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+      background: linear-gradient(45deg, #ffd700, #ff85a1, #ffd700);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 3s linear infinite;
+      text-align: center;
+    }
+
+    /* ============================================================
+       GRAND 3-TIER LUXURY CAKE & 3D 23 NUMBER CANDLES
+       ============================================================ */
+    .cake-stage {
+      position: relative;
+      width: 360px;
+      max-width: 92vw;
+      margin: 45px auto 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    /* Ambient Warm Glow emitted by candles onto the cake */
+    .ambient-glow {
+      position: absolute;
+      top: -30px;
+      width: 220px;
+      height: 120px;
+      background: radial-gradient(ellipse at center, rgba(255, 170, 0, 0.35) 0%, rgba(255, 80, 0, 0.15) 50%, transparent 80%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      animation: ambientFlicker 0.6s infinite alternate;
+      transition: opacity 0.6s ease;
+    }
+
+    .ambient-glow.off {
+      opacity: 0 !important;
+    }
+
+    /* DUAL 23 CANDLES */
+    .candles-wrapper {
+      position: relative;
+      display: flex;
+      gap: 22px;
+      margin-bottom: -15px;
+      z-index: 20;
+    }
+
+    .candle-pillar {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .wick {
+      width: 3px;
+      height: 12px;
+      background: #2b1704;
+      border-radius: 2px 2px 0 0;
+      margin-bottom: 2px;
+    }
+
+    /* 3D Realistic Multi-layered Flame */
+    .flame-real {
+      position: absolute;
+      top: -34px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 35px;
+      background: radial-gradient(ellipse at 50% 85%, #4cc9f0 0%, #fff 25%, #ffbe0b 55%, #fb5607 80%, rgba(255,0,0,0) 100%);
+      border-radius: 50% 50% 20% 20% / 60% 60% 30% 30%;
+      box-shadow: 0 0 16px #ffbe0b, 0 0 35px #fb5607, 0 0 50px rgba(255, 80, 0, 0.6);
+      animation: flameWiggle 0.65s infinite alternate ease-in-out;
+      transform-origin: center bottom;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      pointer-events: none;
+    }
+
+    .flame-real.off {
+      opacity: 0 !important;
+      transform: translateX(-50%) scale(0.3) translateY(10px) !important;
+    }
+
+    /* Smoke puff upon blowing */
+    .smoke {
+      position: absolute;
+      top: -38px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 8px;
+      background: rgba(220, 220, 220, 0.7);
+      border-radius: 50%;
+      filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .smoke.puff {
+      animation: smokeRise 1.8s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+    }
+
+    @keyframes smokeRise {
+      0% { opacity: 0.85; transform: translateX(-50%) scale(1); }
+      50% { opacity: 0.5; transform: translate(-30%, -35px) scale(2.5); }
+      100% { opacity: 0; transform: translate(-60%, -70px) scale(4); }
+    }
+
+    /* Embossed Golden Candle 2 and 3 */
+    .candle-num {
+      font-family: 'Cinzel Decorative', serif, 'Poppins';
+      font-size: 2.3rem;
+      font-weight: 700;
+      line-height: 1;
+      width: 44px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #fff7c2 0%, #ffd700 35%, #cca01d 70%, #fff099 100%);
+      border-radius: 10px;
+      color: #5c4100;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.55), inset 0 2px 3px #fff, inset 0 -2px 3px rgba(0,0,0,0.4);
+      border: 1.5px solid #fff2a3;
+      text-shadow: 1px 1px 0 rgba(255,255,255,0.7), -1px -1px 0 rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    /* 3-TIER LUXURY CAKE */
+    .grand-cake {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 10;
+    }
+
+    /* Tier 1 (Top Tier) */
+    .cake-tier.tier-top {
+      width: 170px;
+      height: 52px;
+      background: linear-gradient(to right, #ffccd5, #fff0f3 50%, #ffccd5);
+      border-radius: 16px 16px 8px 8px;
+      position: relative;
+      box-shadow: inset 0 -5px 0 rgba(0,0,0,0.1), 0 5px 12px rgba(0,0,0,0.3);
+      z-index: 3;
+    }
+
+    /* Tier 2 (Middle Tier) */
+    .cake-tier.tier-mid {
+      width: 240px;
+      height: 60px;
+      background: linear-gradient(to right, #ff4071, #ff758f 50%, #ff4071);
+      border-radius: 18px 18px 10px 10px;
+      position: relative;
+      margin-top: -12px;
+      box-shadow: inset 0 -7px 0 rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.35);
+      z-index: 2;
+    }
+
+    /* Tier 3 (Bottom Grand Tier) */
+    .cake-tier.tier-bottom {
+      width: 310px;
+      height: 70px;
+      background: linear-gradient(to right, #6a097d, #b83b5e 50%, #6a097d);
+      border-radius: 20px 20px 12px 12px;
+      position: relative;
+      margin-top: -14px;
+      box-shadow: inset 0 -9px 0 rgba(0,0,0,0.22), 0 14px 28px rgba(0,0,0,0.45);
+      z-index: 1;
+    }
+
+    /* Cream Icing & Natural Drips */
+    .cream-frosting {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 16px;
+      background: #ffffff;
+      border-radius: 16px 16px 6px 6px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+    }
+
+    /* Organic Drips */
+    .drip-line {
+      position: absolute;
+      top: 14px;
+      display: flex;
+      width: 100%;
+      justify-content: space-around;
+      pointer-events: none;
+    }
+
+    .drip {
+      width: 12px;
+      background: #ffffff;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .drip.d1 { height: 16px; }
+    .drip.d2 { height: 24px; }
+    .drip.d3 { height: 18px; }
+    .drip.d4 { height: 26px; }
+    .drip.d5 { height: 15px; }
+
+    /* Strawberry & Pearl Toppings */
+    .toppings-row {
+      position: absolute;
+      top: -12px;
+      width: 90%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 5;
+    }
+
+    .cherry {
+      width: 16px;
+      height: 16px;
+      background: radial-gradient(circle at 35% 35%, #ff6b8b, #c9184a);
+      border-radius: 50%;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+      position: relative;
+    }
+
+    .pearl {
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle at 30% 30%, #fff7d6, #ffd700 70%, #d4af37);
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    /* Golden Plate Stand at Base */
+    .cake-plate {
+      width: 350px;
+      height: 16px;
+      background: linear-gradient(to right, #d4af37, #fff6a8, #ffd700, #b38728);
+      border-radius: 50px;
+      margin-top: -6px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      z-index: 0;
+    }
+
+    .cake-plinth {
+      width: 140px;
+      height: 10px;
+      background: linear-gradient(to right, #9c7818, #d4af37, #9c7818);
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.7);
+    }
+
+    .cake-hint {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: #ff9ebb;
+      animation: hintBounce 1.6s infinite;
+      text-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
+    }
+
+    /* ================= 6-PHOTO LAYOUT ================= */
+    .memory-section {
+      width: 100%;
+      max-width: 1200px;
+      margin: 60px 0 30px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .section-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: var(--gold);
+      text-shadow: 0 0 15px var(--gold-glow);
+      margin-bottom: 35px;
+    }
+
+    /* Top 5 Portrait Polaroids */
+    .polaroid-portrait-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      margin-bottom: 45px;
+    }
+
+    .polaroid-card-portrait {
+      background: #ffffff;
+      padding: 12px 12px 18px 12px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+      border-radius: 6px;
+      width: 200px;
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+      cursor: pointer;
+    }
+
+    .polaroid-card-portrait:nth-child(1) { transform: rotate(-3deg); }
+    .polaroid-card-portrait:nth-child(2) { transform: rotate(2deg); }
+    .polaroid-card-portrait:nth-child(3) { transform: rotate(-1.5deg); }
+    .polaroid-card-portrait:nth-child(4) { transform: rotate(3deg); }
+    .polaroid-card-portrait:nth-child(5) { transform: rotate(-2.5deg); }
+
+    .polaroid-card-portrait:hover {
+      transform: scale(1.08) rotate(0deg) !important;
+      box-shadow: 0 20px 45px rgba(255, 51, 102, 0.45);
+      z-index: 20;
+    }
+
+    .portrait-img-wrapper {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      border-radius: 4px;
+      background: #1c1328;
+    }
+
+    .portrait-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .polaroid-card-portrait:hover img {
+      transform: scale(1.08);
+    }
+
+    /* Bottom 1 Landscape Polaroid */
+    .polaroid-landscape-container {
+      width: 100%;
+      max-width: 650px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .polaroid-card-landscape {
+      background: #ffffff;
+      padding: 16px 16px 24px 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+      border-radius: 8px;
+      width: 100%;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+    }
+
+    .polaroid-card-landscape:hover {
+      transform: scale(1.03);
+      box-shadow: 0 25px 50px rgba(255, 51, 102, 0.4);
+    }
+
+    .landscape-img-wrapper {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 6px;
+      background: #1c1328;
+    }
+
+    .landscape-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .polaroid-card-landscape:hover img {
+      transform: scale(1.05);
+    }
+
+    .polaroid-caption {
+      font-family: 'Caveat', cursive;
+      color: #2b2b2b;
+      font-size: 1.3rem;
+      margin-top: 12px;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* Romantic Quote Card */
+    .quote-card {
+      max-width: 720px;
+      width: 90%;
+      background: var(--card-bg);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255,255,255,0.25);
+      border-radius: 28px;
+      padding: 40px 35px;
+      text-align: center;
+      position: relative;
+      margin-top: 45px;
+    }
+
+    .quote-card::before {
+      content: '“';
+      font-family: 'Great Vibes', cursive;
+      position: absolute;
+      top: -20px;
+      left: 25px;
+      font-size: 6.5rem;
+      color: rgba(255, 255, 255, 0.12);
+      line-height: 1;
+    }
+
+    .quote-body {
+      font-size: 1.15rem;
+      line-height: 1.95;
+      color: #f1f2f6;
+      font-weight: 300;
+    }
+
+    .quote-body strong {
+      color: #ff85a1;
+      font-weight: 600;
+      text-shadow: 0 0 10px rgba(255, 133, 161, 0.4);
+    }
+
+    .sender-box {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .sender-sub {
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      color: #ccc;
+      text-transform: uppercase;
+    }
+
+    .sender-name {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.2rem;
+      color: var(--gold);
+      text-shadow: 0 0 10px var(--gold-glow);
+    }
+
+    /* Floating Music Bar */
+    .audio-control {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 200;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 50px;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      color: white;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    }
+
+    .audio-control:hover {
+      background: var(--primary);
+      box-shadow: 0 0 20px var(--primary);
+      transform: scale(1.05);
+    }
+
+    /* Keyframes */
+    @keyframes flameWiggle {
+      0% { transform: translateX(-50%) rotate(-3deg) scale(0.96); }
+      50% { transform: translateX(-50%) rotate(2deg) scale(1.06); }
+      100% { transform: translateX(-50%) rotate(-2deg) scale(0.98); }
+    }
+
+    @keyframes ambientFlicker {
+      0% { opacity: 0.75; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1.08); }
+    }
+
+    @keyframes gradientShift {
+      to { background-position: 200% center; }
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.18); }
+    }
+
+    @keyframes hintBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @media (max-width: 650px) {
+      .timer-box { min-width: 72px; padding: 14px 10px; }
+      .timer-value { font-size: 2.2rem; }
+      .quote-card { padding: 30px 20px; }
+      .polaroid-card-portrait { width: 44%; min-width: 140px; padding: 8px 8px 14px; }
+      .polaroid-caption { font-size: 1.1rem; }
+      .cake-plate { width: 310px; }
+      .cake-tier.tier-bottom { width: 280px; }
+      .cake-tier.tier-mid { width: 215px; }
+      .cake-tier.tier-top { width: 155px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dynamic Ambient Starfield Canvas -->
+  <canvas id="bgCanvas" class="bg-canvas"></canvas>
+
+  <!-- ================= COUNTDOWN SCREEN ================= -->
+  <div id="countdown-screen">
+    <div class="countdown-heart">💖</div>
+    <div class="teaser-text" id="teaserMsg">Counting down for my Shakti...</div>
+    <div class="timer-container">
+      <div class="timer-box">
+        <span class="timer-value" id="days">00</span>
+        <span class="timer-label">Days</span>
+      </div>
+      <div class="timer-box">
+        <span class="timer-value" id="hours">00</span>
+        <span class="timer-label">Hours</span>
+      </div>
+      <div class="timer-box">
+        <span class="timer-value" id="minutes">00</span>
+        <span class="timer-label">Mins</span>
+      </div>
+      <div class="timer-box">
+        <span class="timer-value" id="seconds">00</span>
+        <span class="timer-label">Secs</span>
+      </div>
+    </div>
+
+    <button id="previewBtn" class="instant-test-btn" onclick="triggerCelebration()">
+      ⚡ Instant Preview (Test Mode)
+    </button>
+  </div>
+
+  <!-- ================= MAIN CELEBRATION ================= -->
+  <div id="celebration-screen">
+    <span class="hbd-sub">Happy 23rd Birthday to My World</span>
+    <h1 class="hbd-title" id="displayHbdTitle">Happy Birthday Gungun</h1>
+    <div class="shakti-badge" id="displayShaktiBadge">✨ You are my true "Shakti" ✨</div>
+
+    <!-- ================= GRAND 3-TIER CAKE & DUAL 23 CANDLES ================= -->
+    <div class="cake-stage" onclick="blowCandles()">
+      <div class="ambient-glow" id="ambientLight"></div>
+
+      <!-- DUAL EMBOSSED 23 CANDLES -->
+      <div class="candles-wrapper">
+        <!-- Number 2 Candle -->
+        <div class="candle-pillar">
+          <div class="flame-real" id="flame1"></div>
+          <div class="smoke" id="smoke1"></div>
+          <div class="wick"></div>
+          <div class="candle-num">2</div>
+        </div>
+
+        <!-- Number 3 Candle -->
+        <div class="candle-pillar">
+          <div class="flame-real" id="flame2"></div>
+          <div class="smoke" id="smoke2"></div>
+          <div class="wick"></div>
+          <div class="candle-num">3</div>
+        </div>
+      </div>
+
+      <!-- 3-TIER LUXURY CAKE -->
+      <div class="grand-cake">
+        <!-- Tier 1: Top Tier -->
+        <div class="cake-tier tier-top">
+          <div class="toppings-row">
+            <div class="cherry"></div>
+            <div class="pearl"></div>
+            <div class="cherry"></div>
+            <div class="pearl"></div>
+            <div class="cherry"></div>
+          </div>
+          <div class="cream-frosting"></div>
+          <div class="drip-line">
+            <div class="drip d1"></div>
+            <div class="drip d2"></div>
+            <div class="drip d4"></div>
+            <div class="drip d1"></div>
+            <div class="drip d3"></div>
+          </div>
+        </div>
+
+        <!-- Tier 2: Middle Tier -->
+        <div class="cake-tier tier-mid">
+          <div class="cream-frosting"></div>
+          <div class="drip-line">
+            <div class="drip d3"></div>
+            <div class="drip d5"></div>
+            <div class="drip d2"></div>
+            <div class="drip d4"></div>
+            <div class="drip d1"></div>
+            <div class="drip d3"></div>
+          </div>
+        </div>
+
+        <!-- Tier 3: Bottom Grand Tier -->
+        <div class="cake-tier tier-bottom">
+          <div class="cream-frosting"></div>
+          <div class="drip-line">
+            <div class="drip d2"></div>
+            <div class="drip d4"></div>
+            <div class="drip d1"></div>
+            <div class="drip d5"></div>
+            <div class="drip d3"></div>
+            <div class="drip d2"></div>
+            <div class="drip d4"></div>
+          </div>
+        </div>
+
+        <!-- Royal Golden Stand Plate -->
+        <div class="cake-plate"></div>
+        <div class="cake-plinth"></div>
+      </div>
+
+      <div class="cake-hint" id="cakeHint">✨ Tap cake to blow the 23rd candles! ✨</div>
+    </div>
+
+    <!-- 6-Photo Memory Section -->
+    <div class="memory-section">
+      <h2 class="section-title">Moments with My Shakti ❤️</h2>
+      
+      <!-- Top 5 Vertical Portraits -->
+      <div class="polaroid-portrait-grid" id="portraitGrid"></div>
+
+      <!-- Bottom 1 Wide Landscape -->
+      <div class="polaroid-landscape-container" id="landscapeContainer"></div>
+    </div>
+
+    <!-- Romantic Heartfelt Quote Card -->
+    <div class="quote-card">
+      <div class="quote-body" id="quoteText"></div>
+      <div class="sender-box">
+        <span class="sender-sub">Forever & Always Yours,</span>
+        <span class="sender-name" id="senderName">Giridhar ❤️</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Music Button -->
+  <div class="audio-control" onclick="toggleMusic()">
+    <span id="audio-icon">🎵</span>
+    <span id="audio-status">Play Music</span>
+  </div>
+
+  <!-- Audio Tracks -->
+  <audio id="bgMusic" loop preload="auto"></audio>
+  <audio id="birthdaySong" preload="auto"></audio>
+
+  <script>
+    const cfg = window.USER_CONFIG;
+
+    /* Preview button toggle */
+    const previewBtn = document.getElementById('previewBtn');
+    if (!cfg.SHOW_PREVIEW_BUTTON) {
+      previewBtn.style.display = 'none';
+    }
+
+    /* Injected text */
+    document.getElementById('displayHbdTitle').innerText = `Happy Birthday ${cfg.REAL_NAME}`;
+    document.getElementById('displayShaktiBadge').innerText = `✨ You are my true "${cfg.NICK_NAME}" ✨`;
+    document.getElementById('quoteText').innerHTML = cfg.MAIN_MESSAGE;
+    document.getElementById('senderName').innerText = `${cfg.BOYFRIEND_NAME} ❤️`;
+    document.getElementById('teaserMsg').innerText = `Counting down for my ${cfg.NICK_NAME}...`;
+
+    const bgMusic = document.getElementById('bgMusic');
+    const birthdaySong = document.getElementById('birthdaySong');
+    bgMusic.src = cfg.BG_MUSIC_URL;
+    birthdaySong.src = cfg.BIRTHDAY_SONG_URL;
+
+    let activeAudio = bgMusic;
+    let isPlayingMusic = false;
+
+    /* Fallback image helper */
+    function getFallbackSvg(label) {
+      return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500"><rect width="100%" height="100%" fill="%232a0d33"/><text x="50%" y="48%" fill="%23ff85a1" font-size="28" font-family="sans-serif" text-anchor="middle">❤️ ${label} ❤️</text><text x="50%" y="56%" fill="%23ffd700" font-size="16" font-family="sans-serif" text-anchor="middle">Photo Slot</text></svg>`;
+    }
+
+    /* Render Top 5 Vertical Polaroids */
+    const portraitGrid = document.getElementById('portraitGrid');
+    cfg.PORTRAIT_PHOTOS.forEach((photo, idx) => {
+      const card = document.createElement('div');
+      card.className = 'polaroid-card-portrait';
+      card.innerHTML = `
+        <div class="portrait-img-wrapper">
+          <img src="${photo.fileOrUrl}" alt="Memory ${idx+1}" onerror="this.onerror=null; this.src=getFallbackSvg('Moment ${idx+1}');" loading="lazy" />
+        </div>
+        <div class="polaroid-caption">${photo.caption}</div>
+      `;
+      portraitGrid.appendChild(card);
+    });
+
+    /* Render Bottom 1 Landscape Polaroid */
+    const landscapeContainer = document.getElementById('landscapeContainer');
+    const landPhoto = cfg.LANDSCAPE_PHOTO;
+    const landCard = document.createElement('div');
+    landCard.className = 'polaroid-card-landscape';
+    landCard.innerHTML = `
+      <div class="landscape-img-wrapper">
+        <img src="${landPhoto.fileOrUrl}" alt="Special Memory" onerror="this.onerror=null; this.src=getFallbackSvg('Special Moment');" loading="lazy" />
+      </div>
+      <div class="polaroid-caption">${landPhoto.caption}</div>
+    `;
+    landscapeContainer.appendChild(landCard);
+
+    /* Background Canvas Particles */
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Particle {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2.2;
+        this.alpha = Math.random() * 0.7 + 0.3;
+        this.speed = Math.random() * 0.015 + 0.005;
+        this.color = Math.random() > 0.4 ? '#ffffff' : '#ff85a1';
+      }
+      draw() {
+        this.alpha += this.speed;
+        if (this.alpha > 1 || this.alpha < 0.2) this.speed = -this.speed;
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = Math.abs(this.alpha);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+    function renderCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => p.draw());
+      requestAnimationFrame(renderCanvas);
+    }
+    renderCanvas();
+
+    /* Touch Tap Romantic Hearts */
+    window.addEventListener('pointerdown', (e) => {
+      const heart = document.createElement('div');
+      heart.className = 'heart-tap';
+      const emojis = ['💖', '💕', '✨', '🌸', '❤️'];
+      heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+      heart.style.left = e.clientX + 'px';
+      heart.style.top = e.clientY + 'px';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1200);
+    });
+
+    /* Countdown Logic */
+    let hasCelebrated = false;
+
+    function updateCountdown() {
+      if (cfg.FORCE_TEST_MODE) {
+        triggerCelebration();
+        return;
+      }
+
+      const now = new Date().getTime();
+      const difference = cfg.TARGET_DATE - now;
+
+      if (difference <= 0) {
+        triggerCelebration();
+        return;
+      }
+
+      const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((difference % (1000 * 60)) / 1000);
+
+      document.getElementById('days').innerText = String(d).padStart(2, '0');
+      document.getElementById('hours').innerText = String(h).padStart(2, '0');
+      document.getElementById('minutes').innerText = String(m).padStart(2, '0');
+      document.getElementById('seconds').innerText = String(s).padStart(2, '0');
+    }
+
+    const timerInterval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    /* Celebration Transition */
+    function triggerCelebration() {
+      if (hasCelebrated) return;
+      hasCelebrated = true;
+      clearInterval(timerInterval);
+
+      document.getElementById('countdown-screen').classList.add('hide');
+      document.getElementById('celebration-screen').classList.add('show');
+
+      bgMusic.play().then(() => {
+        isPlayingMusic = true;
+        document.getElementById('audio-status').innerText = "Pause Music";
+      }).catch(() => {});
+
+      const duration = 5 * 1000;
+      const animationEnd = Date.now() + duration;
+
+      const interval = setInterval(function() {
+        const timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) return clearInterval(interval);
+
+        confetti({
+          particleCount: 35,
+          angle: 60,
+          spread: 60,
+          origin: { x: 0, y: 0.8 },
+          colors: ['#ff3366', '#ffd700', '#ffffff', '#ff9ebb']
+        });
+
+        confetti({
+          particleCount: 35,
+          angle: 120,
+          spread: 60,
+          origin: { x: 1, y: 0.8 },
+          colors: ['#ff3366', '#ffd700', '#ffffff', '#ff9ebb']
+        });
+      }, 350);
+    }
+
+    /* Extinguish Flames + Smoke Effect + Play Birthday Song */
+    function blowCandles() {
+      const flame1 = document.getElementById('flame1');
+      const flame2 = document.getElementById('flame2');
+      const smoke1 = document.getElementById('smoke1');
+      const smoke2 = document.getElementById('smoke2');
+      const ambientLight = document.getElementById('ambientLight');
+      const hint = document.getElementById('cakeHint');
+      
+      if (!flame1.classList.contains('off')) {
+        // Turn off flames & ambient glow
+        flame1.classList.add('off');
+        flame2.classList.add('off');
+        ambientLight.classList.add('off');
+
+        // Trigger smoke puff
+        smoke1.classList.add('puff');
+        smoke2.classList.add('puff');
+
+        hint.innerHTML = "🎉 Sweet 23rd Birthday Shakti! May all your dreams come true! 🎶";
+        hint.style.color = "#ffd700";
+
+        // Switch to Birthday Song
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
+
+        activeAudio = birthdaySong;
+        birthdaySong.currentTime = 0;
+        birthdaySong.play().then(() => {
+          isPlayingMusic = true;
+          document.getElementById('audio-status').innerText = "Pause Song";
+        }).catch((err) => {
+          console.log("Audio play error:", err);
+        });
+
+        // Grand Confetti Blast
+        confetti({
+          particleCount: 140,
+          spread: 130,
+          origin: { y: 0.55 }
+        });
+      }
+    }
+
+    /* Music Toggle */
+    function toggleMusic() {
+      if (isPlayingMusic) {
+        activeAudio.pause();
+        isPlayingMusic = false;
+        document.getElementById('audio-status').innerText = "Play Music";
+      } else {
+        activeAudio.play().then(() => {
+          isPlayingMusic = true;
+          document.getElementById('audio-status').innerText = "Pause Music";
+        }).catch(() => {});
+      }
+    }
+  </script>
+</body>
+</html>
